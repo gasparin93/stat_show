@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spark-worker
+  namespace: spark
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spark-worker
+  template:
+    metadata:
+      labels:
+        app: spark-worker
+    spec:
+      containers:
+        - name: spark-worker
+          image: bitnami/spark:latest
+          command: ["/opt/bitnami/scripts/spark/entrypoint.sh"]
+          args: ["spark-class", "org.apache.spark.deploy.worker.Worker", "spark://spark-master:7077"]
+          env:
+            - name: SPARK_MODE
+              value: "worker"
+

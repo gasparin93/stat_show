@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spark-master
+  namespace: spark
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spark-master
+  template:
+    metadata:
+      labels:
+        app: spark-master
+    spec:
+      containers:
+        - name: spark-master
+          image: bitnami/spark:latest
+          command: ["/opt/bitnami/scripts/spark/entrypoint.sh"]
+          args: ["spark-class", "org.apache.spark.deploy.master.Master"]
+          ports:
+            - containerPort: 7077
+            - containerPort: 8080
+          env:
+            - name: SPARK_MODE
+              value: "master"
+            - name: SPARK_MASTER_HOST
+              value: "0.0.0.0"  # Listen on all interfaces
+            - name: SPARK_MASTER_PORT
+              value: "7077"
+

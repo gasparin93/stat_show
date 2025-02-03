@@ -1,0 +1,13 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: payment-stats           # Replace with your desired topic name
+  namespace: kafka         # The namespace where Strimzi and your Kafka cluster are deployed
+  labels:
+    strimzi.io/cluster: my-cluster  # This must match the name of your Kafka cluster CR (often "my-cluster")
+spec:
+  partitions: 1            # Number of partitions for the topic
+  replicas: 1              # Number of replicas (set this to match your cluster size)
+  config:
+    retention.ms: 7200000  # Example configuration: retention time of 2 hours
+    segment.bytes: 1073741824  # Example: maximum segment file size

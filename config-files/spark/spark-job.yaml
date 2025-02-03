@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: payment-stat-worker
+  namespace: spark
+spec:
+  template:
+    spec:
+      containers:
+        - name: spark-job
+          image: docker.io/mustachiofurioso/spark-payments:latest
+          env:
+            - name: HOME
+              value: "/home/spark"  # Match the user's home directory
+            - name: HADOOP_USER_NAME
+              value: "spark"        # Use the user created in the Dockerfile
+            - name: SPARK_JARS_IVY
+              value: "/tmp/.ivy2"
+          command: ["/opt/bitnami/spark/bin/spark-submit"]
+          args: [
+            "--master", "spark://spark-master:7077",
+            "--deploy-mode", "client",
+            "--class", "com.honestefforts.PaymentSparkAnalytics",
+            "--conf", "spark.hadoop.security.authentication=simple",  # Disable Kerberos
+            "--conf", "spark.hadoop.fs.defaultFS=file:///",
+            "--jars", "file:///opt/spark/jars/spark-sql-kafka-0-10_2.12-3.5.1.jar",
+            "--executor-cores", "3",
+            "--num-executors", "1",
+            "--conf", "spark.executor.memory=2G",     # Set executor memory
+            "--conf", "spark.driver.memory=2G",         # Set driver memory
+            "/opt/spark/jars/payment-spark-1.0-SNAPSHOT.jar"
+          ]
+      restartPolicy: Never
