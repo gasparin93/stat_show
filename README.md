@@ -4,7 +4,7 @@
 
 **High Level Design**
 
-I thought I’d spend Friday evening after work fiddling around with Spark and Kafka. I did not have any Spark experience at the time and I only had user-side experience of Kafka, since the SRE teams do any setups and configurations of Kafka. I figured a simple use-case would be ideal: a web application that has a way to generate batch payments. The front-end would include:
+I thought I’d spend Friday evening after work fiddling around with Spark and Kafka. I had thrown my back out carrying two heavy kids a few days earlier, so I had a good excuse to sit down and crunch bytecode. I did not have any Spark experience at the time and I only had user-side experience of Kafka, since the SRE teams do any setups and configurations of Kafka. I figured a simple use-case would be ideal: a web application that has a way to generate batch payments. The front-end would include:
 
 - Two sections:
     - Section 1: The lower half of the page, where there would be a simple form:
