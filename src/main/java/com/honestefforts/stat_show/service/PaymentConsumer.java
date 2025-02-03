@@ -18,6 +18,7 @@ public class PaymentConsumer {
   @KafkaListener(topics = "payment-stats", groupId = "payment-stats-group")
   public void listen(String message) {
     try {
+      System.out.println("got a message: "+message);
       PaymentStats stats = objectMapper.readValue(message, PaymentStats.class);
       repository.updateStats(stats);
     } catch (Exception e) {

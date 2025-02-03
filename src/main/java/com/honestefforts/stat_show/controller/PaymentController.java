@@ -24,9 +24,9 @@ public class PaymentController {
   private PaymentStatsRepository repository;
 
   @PostMapping("/payment")
-  @ResponseStatus(HttpStatus.ACCEPTED)
-  public void receivePayment(@RequestBody Payment payment) {
-    paymentPusher.sendPayment(payment);
+  @ResponseStatus(HttpStatus.OK)
+  public void receivePayment(@RequestBody List<Payment> payments) {
+    payments.forEach(p -> paymentPusher.sendPayment(p));
   }
 
   @GetMapping("/stats")

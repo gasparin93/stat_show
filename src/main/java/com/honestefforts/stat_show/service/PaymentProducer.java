@@ -18,6 +18,7 @@ public class PaymentProducer {
 
   public void sendPayment(Payment payment) {
     try {
+      System.out.println("writing message: "+payment);
       String json = objectMapper.writeValueAsString(payment);
       kafkaTemplate.send(TOPIC, json);
     } catch (Exception e) {
